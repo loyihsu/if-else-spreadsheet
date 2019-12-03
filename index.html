@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <title>IF-ELSE for Spreadsheets</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      h1 {
+        padding-top: 12pt;
+        text-align: center;
+      }
+      button {
+        margin-top: 24pt;
+        margin-bottom: 24pt;
+      }
+      p {
+        text-align: center;
+      }
+      .block {
+        padding-top: 12pt;
+      }
+    </style>
+    <script>
+      addElseIf = function() {
+        const div = document.createElement("div");
+
+        div.className = "block";
+
+        div.innerHTML =
+          '<label for="else-if">ELSE-IF</label><input type="text" class="form-control if-else" id="elseif" placeholder=\'Input your condition, such as --> B2="7-11"\'<label for="else-if">DO</label><input type="text" class="form-control if-else-do" id="elseif" placeholder=\'Input your fomula or string --> C2*0.2 or ""\'>';
+
+        var content = document.getElementById("add-else-if").appendChild(div);
+      };
+
+      generate = function() {
+        var text = "=IF(";
+        var recur = ", IF(";
+        var items = document.getElementsByClassName("if-else");
+        var act = document.getElementsByClassName("if-else-do");
+        var open = 1;
+
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].value != "") {
+            if (i == 0) {
+              text += items[i].value + ", ";
+            } else {
+              text += recur + items[i].value + ", ";
+              open += 1;
+            }
+
+            if (i != items.length - 1) {
+              text += act[i].value;
+            } else {
+              text += act[i].value;
+            }
+          }
+        }
+
+        text += ", " + act[items.length].value;
+
+        for (var i = 0; i < open; i++) {
+          text += ")";
+        }
+
+        document.getElementById("output").value = text;
+      };
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>IF-ELSE for Spreadsheets</h1>
+      <div class="form-group">
+        <label for="if">IF</label>
+        <input
+          type="text"
+          class="form-control if-else"
+          id="if"
+          placeholder='Input your condition, such as --> B2="7-11"'
+        />
+        <label for="if">DO</label>
+        <input
+          type="text"
+          class="form-control if-else-do"
+          id="if"
+          placeholder='Input your fomula or string --> C2*0.2 or ""'
+        />
+      </div>
+      <div id="add-else-if"></div>
+      <p>
+        <button
+          type="button"
+          onclick="javascirpt: addElseIf();"
+          class="btn btn-light"
+        >
+          Add else-if
+        </button>
+      </p>
+      <div class="form-group">
+        <label for="if">ELSE DO</label>
+        <input
+          type="text"
+          class="form-control if-else-do"
+          id="else"
+          placeholder='Input your fomula or string --> C2*0.2 or ""'
+        />
+      </div>
+      <p>
+        <button
+          type="button"
+          onclick="javascript: generate()"
+          class="btn btn-success"
+        >
+          Generate
+        </button>
+      </p>
+
+      <div class="form-group">
+        <label for="output">Generated Content:</label>
+        <textarea class="form-control" rows="5" id="output"></textarea>
+      </div>
+    </div>
+  </body>
+</html>
